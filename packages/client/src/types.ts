@@ -1,5 +1,6 @@
 export enum Providers {
   Segment = 'segment',
+  Matomo = 'matomo'
 }
 
 export interface SegmentConfig {
@@ -7,7 +8,13 @@ export interface SegmentConfig {
   writeKey: string;
 }
 
-export type Provider = SegmentConfig;
+export interface MatomoConfig {
+  name: typeof Providers.Segment;
+  id: number;
+  url: string;
+}
+
+export type Provider = SegmentConfig | MatomoConfig;
 
 export interface ActionData {
   id: string;

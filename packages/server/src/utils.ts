@@ -1,11 +1,13 @@
 import { BaseProvider } from './providers/base';
 import { SegmentProvider } from './providers/segment';
+import { MatomoProvider } from './providers/matomo';
 import { RunOptions, Providers } from '@blockstack/stats';
 import { Request } from 'express';
 import { UAParser } from 'ua-parser-js';
 
 const nameToProvider = {
   [Providers.Segment]: SegmentProvider,
+  [Providers.Matomo]: MatomoProvider
 };
 
 export const exportToProviders = async (opts: RunOptions, req: Request) => {
