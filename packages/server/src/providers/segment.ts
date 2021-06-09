@@ -6,7 +6,7 @@ import { getUserAgent } from '../utils';
 
 export class SegmentProvider extends BaseProvider {
   static async event(eventAction: EventAction, req: Request) {
-    const client = this.getClient(eventAction.provider);
+    const client = this.getClient(eventAction.provider as any);
     const { eventData, context } = eventAction;
     const { name, ...rest } = eventData;
     client.track({
@@ -24,7 +24,7 @@ export class SegmentProvider extends BaseProvider {
   }
 
   static async page(pageAction: PageAction, req: Request) {
-    const client = this.getClient(pageAction.provider);
+    const client = this.getClient(pageAction.provider as any);
     const { pageData, context } = pageAction;
     const { name, ...rest } = pageData;
     client.page({

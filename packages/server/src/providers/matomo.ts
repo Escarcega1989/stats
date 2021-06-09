@@ -1,4 +1,5 @@
 import { BaseProvider } from './base';
+// @ts-ignore
 import MatomoTracker from 'matomo-tracker';
 import { MatomoConfig, EventAction, PageAction } from '@blockstack/stats';
 import { Request } from 'express';
@@ -6,7 +7,7 @@ import { getUserAgent } from '../utils';
 
 export class MatomoProvider extends BaseProvider {
   static async event(eventAction: EventAction, req: Request) {
-    const client = this.getClient(eventAction.provider);
+    const client = this.getClient(eventAction.provider as any);
     const { eventData, context } = eventAction;
     const { name, ...rest } = eventData;
     /*client.track({
@@ -24,6 +25,7 @@ export class MatomoProvider extends BaseProvider {
         action_name: name,
         ua: getUserAgent(req),
         uid:  eventAction.id,
+        url: context.page.url
 
         /*url: 'http://example.com/track/this/url',
         action_name: 'This will be shown in your dashboard',
@@ -36,7 +38,7 @@ export class MatomoProvider extends BaseProvider {
   }
 
   static async page(pageAction: PageAction, req: Request) {
-    const client = this.getClient(pageAction.provider);
+    const client = this.getClient(pageAction.provider as any);
     const { pageData, context } = pageAction;
     const { name, ...rest } = pageData;
     /*client.page({
@@ -50,6 +52,19 @@ export class MatomoProvider extends BaseProvider {
         ...rest,
       },
     });*/
+    client.track({
+        action_name: name,
+        ua: getUserAgent(req),
+        uid:  pageAction.id,
+        url: pageData.url
+
+        /*url: 'http://example.com/track/this/url',
+        action_name: 'This will be shown in your dashboard',
+        ua: 'Node.js v0.10.24',
+        cvar: JSON.stringify({
+          '1': ['custom variable name', 'custom variable value']
+        })*/
+      });
     return Promise.resolve();
   }
 
